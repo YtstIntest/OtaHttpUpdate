@@ -103,17 +103,33 @@ public class OkHelper extends Observable {
 
 
     /**
+     * @param json 上报信息bean
+     * @Description: TBox上报任务执行过程日志
+     * @Author: XL
+     * @CreateDate: 2019/8/30 5:24 PM
+     */
+    public static void UploadProcessLog(Context context, String json, JsonCallback<DataBackResult<CodeBean>> callback) {
+        OkGo.<DataBackResult<CodeBean>>post(URLConfig.f5)
+                .tag(context)
+                .cacheMode(CacheMode.NO_CACHE)
+                .upJson(json)
+                .execute(callback);
+
+    }
+
+
+    /**
      * @Description: 整车升级任务完成后，TBox上传日志
      * @Author: XL
      * @CreateDate: 2019/8/29 6:24 PM
      */
-    public static void UploadResultLog(Context context, String Header, File file, JsonCallback<DataBackResult<CodeBean>> callback) {
+    public static void UploadResultLog(Context context, String json, File file, JsonCallback<DataBackResult<CodeBean>> callback) {
         OkGo.<DataBackResult<CodeBean>>post(URLConfig.f5)
                 .tag(context)
                 .isMultipart(true)
                 .cacheMode(CacheMode.NO_CACHE)
-                .params("Header", Header)
-                .params("File", file)
+                .upJson(json)
+                .upFile(file)
                 .execute(callback);
     }
 
