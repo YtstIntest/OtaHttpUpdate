@@ -16,6 +16,8 @@ import java.util.Observable;
 
 public class OkHelper extends Observable {
     public static final int SUCCESS = 200;
+
+
     public static final int ERRO_NOT_FOUNT = 404;
     public static String ERRO_NOT_FOUNT_MESSAGE = "未找到请求路由，多用于下载文件时，文件不存在或文件不能被下载";
 

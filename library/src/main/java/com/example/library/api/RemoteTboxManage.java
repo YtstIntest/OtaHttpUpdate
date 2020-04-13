@@ -5,12 +5,15 @@ import android.content.Context;
 import com.example.library.bean.CodeBean;
 import com.example.library.bean.QueryForTasksBean;
 import com.example.library.bean.QueryUpgradeFilesBean;
+import com.example.library.bean.ReportVehicleInformationBean;
 import com.example.library.bean.ReportVehicleResponseBean;
+import com.example.library.bean.UploadProcessLogBean;
 import com.example.library.callback.JsonCallback;
 import com.example.library.configs.DataBackResult;
 import com.example.library.configs.OkHelper;
 import com.example.library.configs.URLConfig;
 import com.example.library.interfaces.ResponseCallback;
+import com.google.gson.Gson;
 import com.lzy.okgo.model.Response;
 
 import java.io.File;
@@ -68,13 +71,13 @@ public class RemoteTboxManage {
 
 
     /**
-     * @param json 上报信息bean
+     * @param bean 上报信息bean
      * @Description: TBox上报车辆信息，查询是否有任务，返回升级信息
      * @Author: XL
      * @CreateDate: 2019/8/23 10:50 AM
      */
-    public void ReportVehicleInformation(String json, final ResponseCallback<ReportVehicleResponseBean> callback) {
-        OkHelper.ReportVehicleInformation(context, json, new JsonCallback<DataBackResult<ReportVehicleResponseBean>>() {
+    public void ReportVehicleInformation(ReportVehicleInformationBean bean, final ResponseCallback<ReportVehicleResponseBean> callback) {
+        OkHelper.ReportVehicleInformation(context, new Gson().toJson(bean), new JsonCallback<DataBackResult<ReportVehicleResponseBean>>() {
             @Override
             public void onSuccess(Response<DataBackResult<ReportVehicleResponseBean>> response) {
                 switch (response.body().getStatusCode()) {
@@ -164,13 +167,13 @@ public class RemoteTboxManage {
 
 
     /**
-     * @param json 上报信息bean
+     * @param bean 上报信息bean
      * @Description: TBox上报任务执行过程日志
      * @Author: XL
      * @CreateDate: 2019/8/30 5:24 PM
      */
-    public void UploadProcessLog(String json, final ResponseCallback<String> callback) {
-        OkHelper.UploadProcessLog(context, json, new JsonCallback<DataBackResult<CodeBean>>() {
+    public void UploadProcessLog(UploadProcessLogBean bean, final ResponseCallback<String> callback) {
+        OkHelper.UploadProcessLog(context, new Gson().toJson(bean), new JsonCallback<DataBackResult<CodeBean>>() {
             @Override
             public void onSuccess(Response<DataBackResult<CodeBean>> response) {
                 switch (response.body().getStatusCode()) {
@@ -206,6 +209,8 @@ public class RemoteTboxManage {
     }
 
     /**
+     * @param json 上报信息bean
+     * @param file 上传日志文件
      * @Description: 整车升级任务完成后，TBox上传日志
      * @Author: XL
      * @CreateDate: 2019/8/29 6:24 PM
@@ -243,7 +248,6 @@ public class RemoteTboxManage {
                 callback.onError(OkHelper.errorMsg);
             }
         });
-
     }
 
 
